@@ -53,9 +53,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.SECRET_KEY }}
-          aws-region: ${{ secrets.REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -65,13 +65,28 @@ jobs:
         id: build-push-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.REPOSITORY }}
+          ECR_REPOSITORY: ${{ secrets.REPOSITORY_PUSH }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "::set-env name=ARTIFACT_PATH::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Record the artifact
+        id: record-artifact-push
+        uses: project-vagabond/invoke-aws-lambda@v3.3.0
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          REGION: ${{ secrets.AWS_REGION }}
+          FunctionName: nys-cpt-deploy-lambda
+          Payload: '{"task": "post", "body": {"artifactId": "${{ github.repository }}", "artifactType": "container", "commitId": "${{ github.sha }}", "path": "${{ env.ARTIFACT_PATH }}"}}'
+
+      - name: Print artifact record log
+        run: echo "${{ fromJSON(steps.record-artifact-push.outputs.response).Payload }}"  
 
       - name: Logout of Amazon ECR
         if: always()
         run: docker logout ${{ steps.login-ecr.outputs.registry }}
+
