@@ -71,20 +71,6 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "::set-env name=ARTIFACT_PATH::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-      - name: Record the artifact
-        id: record-artifact-push
-        uses: project-vagabond/invoke-aws-lambda@v3.3.0
-        with:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          REGION: ${{ secrets.AWS_REGION }}
-          FunctionName: nys-cpt-deploy-lambda
-          Payload: '{"task": "post", "body": {"artifactId": "${{ github.repository }}", "artifactType": "container", "commitId": "${{ github.sha }}", "path": "${{ env.ARTIFACT_PATH }}"}}'
-
-      - name: Print artifact record log
-        run: echo "${{ fromJSON(steps.record-artifact-push.outputs.response).Payload }}"  
 
       - name: Logout of Amazon ECR
         if: always()
