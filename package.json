@@ -35,7 +35,7 @@
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
     "pg-range": "^1.1.0",
-    "phone": "^2.4.19"
+    "phone": "^2.4.21"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
