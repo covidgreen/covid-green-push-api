@@ -16,7 +16,7 @@
   "dependencies": {
     "@nearform/sql": "^1.5.0",
     "apn": "^2.2.0",
-    "aws-sdk": "^2.826.0",
+    "aws-sdk": "^2.853.0",
     "crypto-random-string": "^3.3.0",
     "date-fns": "^2.16.1",
     "env-schema": "^1.1.0",
