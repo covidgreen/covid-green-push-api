@@ -36,7 +36,7 @@
     "phone": "^2.4.21"
   },
   "devDependencies": {
-    "eslint": "^6.6.0",
+    "eslint": "^7.21.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-prettier-standard": "^3.0.1",
     "eslint-config-standard": "^14.1.0",
