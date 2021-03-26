@@ -1,6 +1,5 @@
 <img alttext="COVID Green Logo" src="https://raw.githubusercontent.com/lfph/artwork/master/projects/covidgreen/stacked/color/covidgreen-stacked-color.png" width="300" />
 
-
 # Contact Tracing - Push Service Backend
 
 ### Set up service
