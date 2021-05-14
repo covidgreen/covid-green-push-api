@@ -51,8 +51,9 @@ There are a number of handy commands you can run to help with development.
 
 ### Contributors
 
-* TBD
-* TBD
+* @dennisgove - Dennis Gove <dgove1@bloomberg.net>
+* @dharding - David J Harding <davidjasonharding@gmail.com>
+* @fiacc - Fiac O'Brien Moran <fiacc.obrienmoran@nearform.com>
 
 ### Past Contributors
 
