@@ -14,7 +14,7 @@
     "test": "jest --config .jest.json --coverage"
   },
   "dependencies": {
-    "@nearform/sql": "^1.6.0",
+    "@nearform/sql": "^1.8.0",
     "aws-sdk": "^2.900.0",
     "crypto-random-string": "^3.3.1",
     "date-fns": "^2.21.2",
